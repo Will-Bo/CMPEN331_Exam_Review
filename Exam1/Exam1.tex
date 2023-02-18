@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsfonts}
+\usepackage{geometry}
+
+\title{CMPEN 331 Exam 1 Review}
+\author{Will Bochnowicz}
+
+\usepackage{imakeidx}
+%\makeindex
+\makeindex[columns=2, title=Index, intoc]
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{MIPS Instructions}
+%% What is is, description of how it works. The meaning of each of the fields (Maybe more specialized in each subsection)
+
+Assembly is the language of the computer. These are basic operations that are easily converted (by the \underline{assembler}\index{assembler}) into \underline{machine code}\index{machine code}: the 1s and 0s that computers actually use to compute numbers. It is one of a number of \underline{Instruction Set Architectures}\index{ISA}, formal definitions of what a processor can and can't do, which have slightly varying \underline{Instruction Sets} per processor model. For example, ARMv7-m is an \underline{Instruction Set Architecture}, upon which the Cortex-M processors have conforming \underline{Instruction Sets} despite having slightly different implementations. 
+
+MIPS is a family of Instruction Set Architectures. They are RISC\index{RISC} based, which means that they are relatively restricted in size and can only do operations on the contents of registers. The contents of memory must be moved into a register before it can be acted upon. There are a number of ways that MIPS instructions\index{Instructions}, which are actual commands to the processor, are represented in binary. 
+
+A register\index{register} is a small storage medium that is located directly in the CPU. It is the fastest form of memory, but has extremely limited size due to its location within the CPU. MIPS has 32 general purpose registers, as well as some others (LO, HI, PC, floating point registers) that serve specific purposes. 
+
+Some MIPS instructions are so-called ``pseudoinstructions''\index{pseudoinstruction}, as they are not actual instructions in the MIPS ISA. Rather, they are shorthand for ease of programming and are expanded into actual instructions by the assembler. For example, the \texttt{blt \$s1, \$s2, Label} instruction actually expands to two instructions: \texttt{slt \$at, \$s1, \$s2} and \texttt{bne \$at, \$zero, Label}, where \texttt{\$at} is a register that is reserved for the assembler to do operations of this sort (side-note: \texttt{\$at} is one of the 32 general-purpose registers, despite being reserved by the assembler). 
+
+
+\subsection{R-Type}\label{RType}\index{Instructions!R-Type}
+R-Type instructions represent instructions that act on three registers. These registers are labeled as the Source, Target, and Destination
+
+Examples of R-Type instructions: \texttt{add}, \texttt{sub}, \texttt{mul}
+%% Diagram of representation, number of bits
+
+\begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    op & rs & rt & rd & shamt & func \\
+    \hline
+    6 & 5 & 5 & 5 & 5 & 6 \\ 
+    \hline
+\end{tabular}
+
+op: ``Operation'' -- The basic operation of the instruction, also called ``opcode''. 6 bits (just happened to be leftover from dividing 32 bits between 4 5-bit fields and 2 other fields).
+
+rs: ``Resister Source'' -- the first operand of the instruction. 5 bits, as there are 32 general registers. 
+
+rt: ``Register Target'' -- the second operand of the instruction. This can occasionally serve as the destination in other types of operations. 5 bits, as there are 32 general registers. 
+
+rd: ``Register Destination'' -- the third operand of the instruction. This is where the result of the operation is stored. 5 bits, as there are 32 general registers. 
+
+shamt: ``Shift Amount'' -- The amount that the target register is shifted, used for sll and srl operations (where the source register is unused). This field is zero for most arithmetic operations. 5 bits, in order to access all 32 bits in a word.
+
+func: ``Function Code'' -- Specifies the variant of the Operation that is used. For most R-Type, this contains the entire operation (``op'' is zero for add, sub, mult, div, etc). 6 bits.
+
+\subsubsection{Problems}\label{RTypeProblems}
+
+%\begin{multline}\label{RType1}
+%    \text{Write the binary representation of the \texttt{add} command.}\\
+%    \text{Note that \texttt{add}'s \texttt{op} and \texttt{func} fields are 000000 and 100000, respectively.}\\
+%    \text{Also assume that for }$a = b + c$ \text{, a is in register 1, b is in register 2, and c is in register 3.}
+%\end{multline}
+
+\begin{equation}\label{RType1}
+\begin{aligned}
+    Q: & \text{Write the binary representation of the \texttt{add} command.}\\
+    & \text{Note that \texttt{add}'s \texttt{op} and \texttt{func} fields are 000000 and 100000, respectively.}\\
+    & \text{Also assume that for } a = b + c \text{, a is in register 1, b is in register 2, and c is in register 3.}
+\end{aligned}
+\end{equation}
+
+\subsection{I-Type}\label{IType}\index{Instructions!I-Type}
+
+\subsection{J-Type}\label{JType}\index{Instructions!J-Type}
+
+\section{Addressing Modes}\label{Addressing}\index{Addressing Modes}
+
+%% No problem ideas yet, but come up with some!
+\section{Solutions}
+
+\ref{RType1}: The binary for this operation is $000000 00010 00011 00001 00000 100000$. \\ OP = $000000$ \\ RS = $00010$ \\ RT = $00011$ \\ RD = $00001$ \\ SHAMT = $00000$ \\ FUNC = $100000$
+
+
+\printindex
+
+\end{document}
