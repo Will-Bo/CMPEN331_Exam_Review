@@ -1,0 +1,7 @@
+## Latex extra files
+*.aux
+*.idx
+*.ilg
+*.ind
+*.log
+*.toc
