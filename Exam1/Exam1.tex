@@ -21,7 +21,7 @@
 
 Assembly is the language of the computer. These are basic operations that are easily converted (by the \underline{assembler}\index{assembler}) into \underline{machine code}\index{machine code}: the 1s and 0s that computers actually use to compute numbers. It is one of a number of \underline{Instruction Set Architectures}\index{ISA}, formal definitions of what a processor can and can't do, which have slightly varying \underline{Instruction Sets} per processor model. For example, ARMv7-m is an \underline{Instruction Set Architecture}, upon which the Cortex-M processors have conforming \underline{Instruction Sets} despite having slightly different implementations. 
 
-MIPS is a family of Instruction Set Architectures. They are RISC\index{RISC} based, which means that they are relatively restricted in size and can only do operations on the contents of registers. The contents of memory must be moved into a register before it can be acted upon. There are a number of ways that MIPS instructions\index{Instructions}, which are actual commands to the processor, are represented in binary. 
+MIPS is a family of Instruction Set Architectures. They are RISC\index{RISC} based, which means that they are relatively restricted in size and can only do operations on the contents of registers. The contents of memory must be moved into a register before it can be acted upon. There are a number of ways that MIPS instructions\index{Instructions}, which are actual commands to the processor, are represented in binary. For the sake of this course, we only consider 32-bit\index{Word Size} MIPS architectures, which means that instructions are only 32 bits long. 
 
 A register\index{register} is a small storage medium that is located directly in the CPU. It is the fastest form of memory, but has extremely limited size due to its location within the CPU. MIPS has 32 general purpose registers, as well as some others (LO, HI, PC, floating point registers) that serve specific purposes. 
 
@@ -56,12 +56,6 @@ func: ``Function Code'' -- Specifies the variant of the Operation that is used. 
 
 \subsubsection{Problems}\label{RTypeProblems}
 
-%\begin{multline}\label{RType1}
-%    \text{Write the binary representation of the \texttt{add} command.}\\
-%    \text{Note that \texttt{add}'s \texttt{op} and \texttt{func} fields are 000000 and 100000, respectively.}\\
-%    \text{Also assume that for }$a = b + c$ \text{, a is in register 1, b is in register 2, and c is in register 3.}
-%\end{multline}
-
 \begin{equation}\label{RType1}
 \begin{aligned}
     Q: & \text{Write the binary representation of the \texttt{add} command.}\\
@@ -72,7 +66,56 @@ func: ``Function Code'' -- Specifies the variant of the Operation that is used. 
 
 \subsection{I-Type}\label{IType}\index{Instructions!I-Type}
 
+I-Type instructions are instructions that work on immediates\index{immediate, data-type}, which are constants in memory. These instructions have extra space to store the binary representation of a number directly in their instructions, rather than in a source, target, or destination register. 
+
+Instructions of I-Type instructions are all Load and Store instructions (lw/sw: \texttt{op base rt offset}), \texttt{addi} and \texttt{subi}, and Branch instructions (beq/bne: \texttt{op rs rt offset}, where offset is where you jump relative to PC\index{Addressing Modes!PC-Relative Addressing})
+
+\begin{tabular}{| c | c | c | c |}
+    \hline
+        op & rs & rt & immediate \\
+        \hline
+        6 & 5 & 5 & 16 \\
+    \hline
+\end{tabular}
+
+op: ``Operation'' -- The basic operation of the instruction, also called ``opcode''. 6 bits.
+
+rs: ``Resister Source'' -- The first operand of the instruction. 5 bits, as there are 32 general registers. 
+
+rt: ``Register Target'' -- The second operand of the instruction. This can occasionally serve as the destination in other types of operations. 5 bits, as there are 32 general registers. 
+
+immediate: ``Immediate'' -- The constant immediate value that is being used in the operation. 16 bits can store up to the value 65,536.
+
+\subsubsection{Problems}\label{ITypeProblems}
+
+\begin{equation}\label{IType1}
+\begin{aligned}
+    Q: & \text{Write the MIPS assembly instruction for the following I-Type binary instruction:}\\
+    & 00010101000010011010101010101010\\
+    & \text{You can look up a table of MIPS commands in binary and the addresses of registers.}
+\end{aligned}
+\end{equation}
+
+
 \subsection{J-Type}\label{JType}\index{Instructions!J-Type}
+
+J-Type instructions are used exclusively for jump instructions. They feature the most space of any instruction for immediates, which are used to represent the address that is being jumped to. While only 26 bits, these bits can be expanded to the full 32 bit word size by concatenating the highest 4 bits of PC to the target address (somewhat limiting the range of this jump), and concatenating 00 to the end of the instruction, as instructions are always aligned on 32-bit words. 
+
+\begin{tabular}{| c | c |}
+    \hline
+        op & target address \\
+        \hline
+        6 & 26 \\
+    \hline
+\end{tabular}
+
+op: ``Operation'' -- The basic operation of the instruction, also called ``opcode''. 6 bits.
+
+target address: ``Target Address'' -- An immediate that represents the instruction number that is to be jumped to. 
+
+\subsubsection{Problems}\label{JTypeProblems}
+
+
 
 \section{Addressing Modes}\label{Addressing}\index{Addressing Modes}
 
@@ -81,6 +124,7 @@ func: ``Function Code'' -- Specifies the variant of the Operation that is used. 
 
 \ref{RType1}: The binary for this operation is $000000 00010 00011 00001 00000 100000$. \\ OP = $000000$ \\ RS = $00010$ \\ RT = $00011$ \\ RD = $00001$ \\ SHAMT = $00000$ \\ FUNC = $100000$
 
+\ref{IType1}: This translates to the instruction \texttt{bne \$t0 \$t1 0xaaaa}. \\ BNE = $000101$ \\ \$t0 = $01000$ \\ \$t1 = $01001$ \\ $0xaaaa$ = $1010101010101010$
 
 \printindex
 
