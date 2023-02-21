@@ -18,11 +18,15 @@
 
 \section{Memory}
 
+\subsection{Memory Layout}
+
 Memory is where a computer stores information. To be accessible, each memory location must have an address\index{memory address}. The memory space is $2^k$ locations wide, which is called the address space. For example, a computer with 32 address bits can have at most $2^{32} \text{bits} = 4G$ of memory. Our computers are \underline{byte addressable}\index{memory address!byte-addressable}, where each byte location (1, 2, 3, \ldots) refers to a group of 8 bits in memory that are treated as a single unit. Because our computers have 32 bit words, word locations are at 0, 4, 8, \ldots. We like to align words to make them easier to access -- each word starts at a byte that is a multiple of the number of bytes in a word.
 
 MIPS is Big-Endian\index{endian-ness}: This means that words are arranged such that lower addresses are the more significant bytes of a word. For example, 0xDEADBEEF, in a big-endian system, would be stored as DE AD BE EF in a single word, while a Little-Endian system could store this word as EF BE AD DE.
 
 There are two memory operations -- read and write. 
+
+A program's memory is laid out as a stack -- lower addresses (around 0) are reserved, then there are \texttt{Text}, \texttt{Static Data}, \texttt{Dynamic Data} (Heap), and \texttt{Stack} areas in memory. The Stack is located at the highest memory address (\texttt{0xffffffff}) and grows down, while the heap is located lower than the stack and grows up. These two regions can collide, causing memory errors, is either is too large. 
 
 \section{MIPS Instructions}
 %% What is is, description of how it works. The meaning of each of the fields (Maybe more specialized in each subsection)
@@ -33,7 +37,7 @@ MIPS is a family of Instruction Set Architectures. They are RISC\index{RISC} bas
 
 Sidenote: Other instruction set paradigms, such as Complex Instruction Set Computers (CISC) exist. CISC can have multi-word instructions and allow operands directly from memory. 
 
-A register\index{register} is a small storage medium that is located directly in the CPU. It is the fastest form of memory, but has extremely limited size due to its location within the CPU. MIPS has 32 general purpose registers, as well as some others (LO, HI, PC, floating point registers) that serve specific purposes. 
+A register\index{register} is a small storage medium that is located directly in the CPU. It is the fastest form of memory, but has extremely limited size due to its location within the CPU. MIPS has 32 general purpose registers, as well as some others (LO, HI, PC, floating point registers) that serve specific purposes\index{register!MIPS register count}. 
 
 Some MIPS instructions are so-called ``pseudoinstructions''\index{pseudoinstruction}, as they are not actual instructions in the MIPS ISA. Rather, they are shorthand for ease of programming and are expanded into actual instructions by the assembler. For example, the \texttt{blt \$s1, \$s2, Label} instruction actually expands to two instructions: \texttt{slt \$at, \$s1, \$s2} and \texttt{bne \$at, \$zero, Label}, where \texttt{\$at} is a register that is reserved for the assembler to do operations of this sort (side-note: \texttt{\$at} is one of the 32 general-purpose registers, despite being reserved by the assembler). 
 
