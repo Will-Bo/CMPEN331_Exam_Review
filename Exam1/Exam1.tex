@@ -132,28 +132,37 @@ target address: ``Target Address'' -- An immediate that represents the instructi
 There are multiple ways that memory is addressed for various operations in MIPS assembly. 
 
 
-\subsection{Register Addressing}\index{Addressing Modes!Register Addressing}
+\subsection{Register Addressing}\label{Register Addressing}\index{Addressing Modes!Register Addressing}
 
 Register Addressing is a form of \underline{direct addressing} -- the value inside a register is used as a memory address. The \texttt{jr} and \texttt{jalr} use this form of addressing. 
 
+Algebraic operations, such as \texttt{add}, \texttt{sub}, etc, all use this method of addressing. 
 
-\subsection{Immediate Addressing}\index{Addressing Modes!Immediate Addressing}
+
+\subsection{Immediate Addressing}\label{Immediate Addressing}\index{Addressing Modes!Immediate Addressing}
 
 An immediate value that is inserted directly into the instruction is used as a memory address. Limited to 16 bits, as that is the size of the Immediate field in I-Type instructions. The \texttt{addi} and related commands use immediate addressing, as the value of the immediate is baked into the command itself. 
 
 
-\subsection{Base Addressing}\index{Addressing Modes!Base Addressing}
+\subsection{Base Addressing}\label{Base Addressing}\index{Addressing Modes!Base Addressing}
 
 Base addressing is where you reference a location in memory based on an offset from a memory location that is stored in a register. Examples of this include the \texttt{lw} command. Once again, due to being an I-Type instruction, the offset values are limited to 16 bits. 
 
 
-\subsection{PC-Relative Addressing}\index{Addressing Modes!PC-Relative Addressing}
+\subsection{PC-Relative Addressing}\label{PC-Relative Addressing}\index{Addressing Modes!PC-Relative Addressing}
 
-\subsection{Jump Addressing / Pseudo-direct Addressing}\index{Addressing Modes!Jump Addressing}
+PC-Relative Addressing is used in the \texttt{beq} and \texttt{bne} instructions. In this mode, the memory location of data or an instruction is specified using an offset from the current PC value. Once again, this type of addressing is used for I-Type instructions where the offset is stored as an immediate constant. 
+
+One advantage of this method is that it works regardless of where the code is located in memory. While some other addressing modes can produce code that point directly to a specific point in memory, that form of addressing depends on those instructions being located in that specific memory location. PC-Relative Addressing creates machine code that acts independently of what specific location in memory the instructions are stored -- the offsets are always the same between instructions because word size is known (can be implemented at compile time), but exact locations in memory are only known at link time.
+
+
+\subsection{Jump Addressing / Pseudo-direct Addressing}\label{Jump Addressing}\index{Addressing Modes!Jump Addressing}
 
 Using J-Type instructions, this type of addressing is only used for \texttt{j} and \texttt{jal} commands. Expansion to a full address is done by concatenating the highest 4 bits of PC to the 26 bits of the target address (somewhat limiting the range of this jump), then concatenating 00 to the end of the instruction, as instructions are always aligned on 32-bit words. (Copied from J-Type explanation above).
 
 The limitations of this addressing type come from using the upper 4 bits of PC -- this limits the jump to the current 256MB of code, which is only $\frac{1}{16}$ of the total 4GB address space. To solve this issue, use the Register Addressing \texttt{jr} and \texttt{jalr} commands. Because these use full 32-bit register values, the entire address space can be jumped to with these commands. 
+
+As stated in section \ref{PC-Relative Addressing}, the addresses used for jump addressing are computed during the linking phase of machine code generation, which can be slower than other addressing methods. 
 
 
 %% No problem ideas yet, but come up with some!
