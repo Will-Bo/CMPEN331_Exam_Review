@@ -16,6 +16,10 @@
 
 \tableofcontents
 
+\section{Computer Basics}
+
+\subsection{Seven Great Ideas}
+
 \section{Memory}
 
 \subsection{Memory Layout}
@@ -130,6 +134,28 @@ target address: ``Target Address'' -- An immediate that represents the instructi
 \subsubsection{Problems}\label{JTypeProblems}
 
 
+\subsection{Logical Operators}
+
+The logical operators are a class of instructions that compare the binary values within registers to each other. 
+
+\begin{tabular}{| c | c |}
+    \hline
+        Command Type & Examples \\
+        \hline
+        Shift Left & \texttt{sll \$t0, \$t1, 4} shifts the bits of t1 left by 4 and stores in t0 \\
+        \hline
+        Shift Right & \texttt{srl \$t0, \$t1, 4} shifts the bits of t1 right by 4 and stores in t0 \\
+    \hline
+    Bitwise AND & \texttt{and \$t0, \$t1, \$t2} is \texttt{t0 = t1 \& t2}; \texttt{andi \$t0, \$t1, 27} is \texttt{t0 = t1 \& 27}\\
+    \hline
+    Bitwise OR & \texttt{or \$t0, \$t1, \$t2} is \texttt{t0 = t1 | t2}; \texttt{ori \$t0, \$t1, 27} is \texttt{t0 = t1 | 27} \\
+    \hline
+    Bitwise NOR  & \texttt{nor \$t0, \$t1, \$t2} is \texttt{t0 = $\sim$(t1 | t2) } \\
+    \hline
+    Bitwise NOT & \texttt{nor \$t0, \$t1, \$zero} is \texttt{t0 = $\sim$(t1 | 0) = ~t1} \\
+    \hline
+\end{tabular}
+
 
 \section{Addressing Modes}\label{Addressing}\index{Addressing Modes}
 
@@ -167,29 +193,6 @@ Using J-Type instructions, this type of addressing is only used for \texttt{j} a
 The limitations of this addressing type come from using the upper 4 bits of PC -- this limits the jump to the current 256MB of code, which is only $\frac{1}{16}$ of the total 4GB address space. To solve this issue, use the Register Addressing \texttt{jr} and \texttt{jalr} commands. Because these use full 32-bit register values, the entire address space can be jumped to with these commands. 
 
 As stated in section \ref{PC-Relative Addressing}, the addresses used for jump addressing are computed during the linking phase of machine code generation, which can be slower than other addressing methods. 
-
-
-\subsection{Logical Operators}
-
-The logical operators are a class of instructions that compare the binary values within registers to each other. 
-
-\begin{tabular}{| c | c |}
-    \hline
-        Command Type & Examples \\
-        \hline
-        Shift Left & \texttt{sll \$t0, \$t1, 4} shifts the bits of t1 left by 4 and stores in t0 \\
-        \hline
-        Shift Right & \texttt{srl \$t0, \$t1, 4} shifts the bits of t1 right by 4 and stores in t0 \\
-    \hline
-    Bitwise AND & \texttt{and \$t0, \$t1, \$t2} is \texttt{t0 = t1 \& t2}; \texttt{andi \$t0, \$t1, 27} is \texttt{t0 = t1 \& 27}\\
-    \hline
-    Bitwise OR & \texttt{or \$t0, \$t1, \$t2} is \texttt{t0 = t1 | t2}; \texttt{ori \$t0, \$t1, 27} is \texttt{t0 = t1 | 27} \\
-    \hline
-    Bitwise NOR  & \texttt{nor \$t0, \$t1, \$t2} is \texttt{t0 = $\sim$(t1 | t2) } \\
-    \hline
-    Bitwise NOT & \texttt{nor \$t0, \$t1, \$zero} is \texttt{t0 = $\sim$(t1 | 0) = ~t1} \\
-    \hline
-\end{tabular}
 
 
 %% No problem ideas yet, but come up with some!
