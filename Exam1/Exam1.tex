@@ -20,6 +20,49 @@
 
 \subsection{Seven Great Ideas}
 
+There are seven great ideas in computer design that we base our understanding and processor development methodology around. 
+
+\begin{enumerate}
+    \item Abstraction: 
+
+        We don't always want to work with the lowest level of the computer. We like to \emph{abstract} away some of the peculiarities and concerns of the lower-level hardware to enhance understandability. 
+        How else could soydevs code in dynamically typed, garbage collected Esperanto?
+
+    \item Make the Common Case Fast:
+
+        Amdahl's Law -- The amount of performance increase that a single improvement has on overall performance depends on how much the affected component is used proportional to the rest of the system. Essentially, the best way to make a system faster is to make its most-used components/functions faster, as that is what's used most of the time. 
+
+    \item
+        Performance via Parallelism:
+
+        If our computer can do multiple things at once, then it can do more things overall! This is the idea of parallel processors inside a CPU. This extremely powerful concept requires that code be rewritten in a parallel manner, which can be troublesome. 
+
+    \item
+        Performance via Pipelining:
+
+        By designing better processes, we can make computer operations run faster and more efficiently. This applies to both software and hardware. For example, we can design hardware for floating-point addition and uses more adders to make the process of addition faster. 
+
+    \item
+        Performance via Prediction:
+
+        Modern processors perform magic when considering conditionals, starting the process of which branch it is most likely to take before the result of the conditional has actually been evaluated. If we can prepare for a situation before it even arises, our system will be faster. 
+
+        This idea hinges on the predictions not being too computationally severe, so that an incorrect prediction doesn't have too severe consequences. 
+
+    \item
+        Hierarchy of Memories:
+
+        By having a multi-leveled memory system (registers, cache, main memory, secondary memory), we can optimize for speed vs space based on what our needs are. 
+
+    \item
+        Dependability via Redundancy:
+
+        Building fail-safes into hardware and software can help prevent costly downtime. 
+\end{enumerate}
+
+Some other sources include Moore's Law as a great idea in computer architecture -- the prediction that the number of transistors in an IC will double every 18-24 months. However, this is not a design principle as much as an observation. What this translates to for practicality's sake is that designers have to try to predict where the market will be at in several years when designing the early stages of a product in order to be competitive with the market's advancement during the development time of the processor. 
+
+
 \section{Memory}
 
 \subsection{Memory Layout}
