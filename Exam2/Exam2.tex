@@ -1,19 +1,44 @@
 \documentclass{article}
 
-\usepackage{amsmath, amsfonts}
+\usepackage{amsmath, amsfonts, amssymb}
 
 \title{CMPEN 331 Exam 2 Review}
 \author{Will Bochnowicz}
+
+\usepackage{imakeidx}
+%\makeindex
+\makeindex[columns=2, title=Index, intoc]
 
 \begin{document}
 
 \maketitle
 
-\section{Floating Point}
+\tableofcontents
+
+\section{Floating Point}\label{Floating Point}\index{Floating Point}
 %% What is is, description of the standard
 
-\subsection{Floating Point Representation}
+The standard of floating point numbers are described in IEEE 754\index{Floating Point!Standard}. This was created because of a divergence in early computing where different manufacturers were using different means of storing floating point numbers, making program portability more difficult for developers. 
+
+\subsection{Floating Point Representation}\index{Floating Point!Representation}
 %% Diagram of representation, number of bits, mantissa, how to get to decimal, bias calculation
+The representation of a floating point number is split into three parts:
+
+\begin{tabular}{|c|c|c|c|}
+    \hline
+     Precision & Sign Bit & Exponent & Fraction \\
+     \hline
+     Single & 1 bit & 8 bits & 23 bits \\
+     \hline
+     Double & 1 bit & 11 bits & 52 bits \\
+     \hline
+\end{tabular}
+
+Where the number represented is calculated as $(-1)^S \times (1 + F) \times 2^{E-B}$\index{Floating Point!Equation}, $B$ stands for Bias. The bias \index{Bias} is used to allow representations of both positive and negative exponent values. In order to calculate it, use the following equation: $2^{(\text{Exponent Bit Count}-1)}-1$.
+
+This system is not perfect. When doing operations on floating point numbers, it is possible to have errors with your handling of the exponent field. Overflow\index{Overflow} is when the exponent field after an operation is too great to fit in the allotted number of bits, while underflow\index{Underflow} occurs when the negative exponent is too large to fit in the exponent field. 
+
+\subsubsection{Floating Point Problems}\label{Floating Point Problems}\index{Floating Point Problems}
 
 \begin{equation}\label{Problem1}
     \text{How would you represent the value } 4.125 \text{ in binary?}
@@ -24,12 +49,20 @@
     1 01011010 01100011011000110110001
 \end{equation}
 
-\subsection{Floating Point Operations}
+\subsection{Floating Point Operations}\label{Floating Point Operations}\index{Floating Point!Operations}
 %% How addition and multiplication work, short description of hardware. Maybe pull screenshots from zyBook. 
+
+\section{MIPS Datapath Design}
+
+\subsection{Single-Cycle}
+
+\subsection{Pipelining}
 
 \section{Solutions}
 
 \ref{Problem1}: 
 
 \ref{Problem2}:
+
+\printindex
 \end{document}
